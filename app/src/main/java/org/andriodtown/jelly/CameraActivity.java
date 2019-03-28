@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -32,6 +33,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -72,6 +74,8 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     private HorizontalScrollView scrollView_clip;
     private HorizontalScrollView scrollView_sticker;
 
+    private Chronometer chrono;
+
     private ImageView btn_record;
     private ImageView bar_left;
     private ImageView btn_text;
@@ -87,6 +91,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     private ImageView img_guide_text;
     private ImageView sticker1;
     private ImageView img_camera_sticker;
+    private ImageView img_rec;
 
     private EditText txt_edit;
 
@@ -132,6 +137,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
 
         mediaRecorder = new MediaRecorder();
 
+        chrono = findViewById(R.id.chrono);
         layout_clip = findViewById(R.id.layout_clip);
         scrollView_clip = findViewById(R.id.scrollView_clip);
         scrollView_sticker = findViewById(R.id.scrollView_sticker);
@@ -151,6 +157,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         btn_clip = findViewById(R.id.btn_clip);
         btn_sticker = findViewById(R.id.btn_sticker);
         img_camera_sticker = findViewById(R.id.img_camera_sticker);
+        img_rec = findViewById(R.id.img_rec);
 
         sticker1 = findViewById(R.id.sticker1);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(sticker1);
@@ -164,10 +171,14 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
             @Override
             public void onClick(View v) {
                 if(isRecording){
+
+                    chrono.stop();
+                    chrono.setVisibility(GONE);
+                    img_rec.setVisibility(GONE);
+
                     isRecording = false;
                     btn_record.setImageResource(R.mipmap.img_record_button);
                     showLeftBar();
-
                     mediaRecorder.stop();
                     mediaRecorder.reset();
                     startPreview();
@@ -257,6 +268,11 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
                 }
                 startRecord();
                 mediaRecorder.start();
+
+                chrono.setBase(SystemClock.elapsedRealtime());
+                chrono.setVisibility(VISIBLE);
+                img_rec.setVisibility(VISIBLE);
+                chrono.start();
             }else{
                 startPreview();
             }
@@ -505,6 +521,11 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
                 }
                 startRecord();
                 mediaRecorder.start();
+
+                chrono.setBase(SystemClock.elapsedRealtime());
+                chrono.setVisibility(VISIBLE);
+                img_rec.setVisibility(VISIBLE);
+                chrono.start();
             }else{
                 if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                     Toast.makeText(this, "권한필요", Toast.LENGTH_SHORT).show();
