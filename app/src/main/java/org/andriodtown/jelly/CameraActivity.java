@@ -2,8 +2,11 @@ package org.andriodtown.jelly;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -13,7 +16,10 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.ImageReader;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
@@ -26,6 +32,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -65,7 +72,11 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     private String mCameraId;
     private Size previewSize;
     private Size videoSize;
+    private Size imageSize;
+    private ImageReader imageReader;
+
     private int totalRotation;
+    private CameraCaptureSession previewCaptureSession;
     private CaptureRequest.Builder captureRequestBuilder;
     private HandlerThread backgroundHandlerThread;
     private Handler backgroundHandler;
@@ -104,6 +115,38 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
 
     private static SparseIntArray ORIENTATION = new SparseIntArray();
 
+    private final ImageReader.OnImageAvailableListener onImageAvailableListener = new ImageReader.OnImageAvailableListener() {
+        @Override
+        public void onImageAvailable(ImageReader reader) {
+
+        }
+    };
+
+    private CameraCaptureSession.CaptureCallback previewCaputureCallback = new CameraCaptureSession.CaptureCallback() {
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        private void process(CaptureResult captureResult){
+            switch (captureState){
+                case STATE_PREVIEW:
+                    break;
+                case STATE_WAIT_LOCK:
+                    captureState =STATE_PREVIEW;
+                    Integer afState = captureResult.get(CaptureResult.CONTROL_AF_STATE);
+                    if(afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
+                            afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED){
+                        Toast.makeText(getApplicationContext(), "AF Locked!", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+            super.onCaptureCompleted(session, request, result);
+            process(result);
+        }
+    };
+
 
     static {
         ORIENTATION.append(Surface.ROTATION_0, 0);
@@ -112,9 +155,12 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         ORIENTATION.append(Surface.ROTATION_270, 270);
     }
 
-    private static int REQUEST_CAMERA_PERMISSION_RESULT = 0;
-    private static int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION_RESULT = 1;
-
+    private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION_RESULT = 1;
+    private static final int REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_RESULT = 2;
+    private static final int STATE_PREVIEW = 0;
+    private static final int STATE_WAIT_LOCK = 1;
+    private int captureState = STATE_PREVIEW;
 
     private static class CompareSizeByArea implements Comparator<Size> {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -136,6 +182,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         createVideoFolder();
 
         mediaRecorder = new MediaRecorder();
+        mediaPlayer = new MediaPlayer();
 
         chrono = findViewById(R.id.chrono);
         layout_clip = findViewById(R.id.layout_clip);
@@ -182,6 +229,11 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
                     mediaRecorder.stop();
                     mediaRecorder.reset();
                     startPreview();
+
+                    Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                    intent.putExtra("path", videoFileName);
+                    startActivity(intent);
+
                 }else{
                     isRecording = true;
                     btn_record.setImageResource(R.mipmap.img_recording_button);
@@ -315,6 +367,9 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
                 }
                 previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotatedWidth, rotateHeight);
                 videoSize = chooseOptimalSize(map.getOutputSizes(MediaRecorder.class), rotatedWidth, rotateHeight);
+                imageSize = chooseOptimalSize(map.getOutputSizes(ImageFormat.JPEG), rotatedWidth, rotateHeight);
+                imageReader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.JPEG,1);
+                imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler);
                 mCameraId = cameraId;
                 return;
             }
@@ -393,12 +448,13 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureRequestBuilder.addTarget(previewSurface);
 
-            cameraDevice.createCaptureSession(Arrays.asList(previewSurface),
+            cameraDevice.createCaptureSession(Arrays.asList(previewSurface, imageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
                         @Override
                         public void onConfigured(@NonNull CameraCaptureSession session) {
+                            previewCaptureSession = session;
                             try {
-                                session.setRepeatingRequest(captureRequestBuilder.build(),
+                                previewCaptureSession.setRepeatingRequest(captureRequestBuilder.build(),
                                         null, backgroundHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
@@ -531,6 +587,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
                     Toast.makeText(this, "권한필요", Toast.LENGTH_SHORT).show();
                 }
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE_PERMISSION_RESULT);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE_PERMISSION_RESULT);
             }
         }else{
             isRecording = true;
@@ -557,6 +614,17 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mediaRecorder.setOrientationHint(totalRotation-180);
         mediaRecorder.prepare();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void lockFocus(){
+        captureState = STATE_WAIT_LOCK;
+        captureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START);
+        try {
+            previewCaptureSession.capture(captureRequestBuilder.build(), previewCaputureCallback, backgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -649,5 +717,33 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         img_camera_sticker.setVisibility(VISIBLE);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(img_camera_sticker);
         layout_clip.setVisibility(GONE);
+    }
+
+    public void dialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("알림");
+        builder.setMessage("녹화영상을 편집하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    mediaRecorder.stop();
+                    mediaRecorder.release();
+                    mediaPlayer.setDataSource(videoFileName);
+                    mediaPlayer.prepareAsync();
+                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mediaPlayer.start();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("아니오", null);
+        builder.setNeutralButton("취소", null);
+        builder.create().show();
     }
 }
