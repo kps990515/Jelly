@@ -608,8 +608,8 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mediaRecorder.setOutputFile(videoFileName);
-        mediaRecorder.setVideoEncodingBitRate(1000000);
-        mediaRecorder.setVideoFrameRate(30);
+        mediaRecorder.setVideoEncodingBitRate(5000000);
+        mediaRecorder.setVideoFrameRate(300);
         mediaRecorder.setVideoSize(videoSize.getWidth(), videoSize.getHeight());
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mediaRecorder.setOrientationHint(totalRotation-180);
