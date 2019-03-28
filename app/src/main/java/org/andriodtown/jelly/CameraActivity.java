@@ -37,6 +37,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -46,6 +48,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class CameraActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener {
 
@@ -80,6 +85,8 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     private ImageView btn_sticker;
     private ImageView img_guide;
     private ImageView img_guide_text;
+    private ImageView sticker1;
+    private ImageView img_camera_sticker;
 
     private EditText txt_edit;
 
@@ -143,9 +150,14 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         txt_edit = findViewById(R.id.txt_edit);
         btn_clip = findViewById(R.id.btn_clip);
         btn_sticker = findViewById(R.id.btn_sticker);
+        img_camera_sticker = findViewById(R.id.img_camera_sticker);
 
-        img_guide.setVisibility(View.VISIBLE);
-        img_guide_text.setVisibility(View.VISIBLE);
+        sticker1 = findViewById(R.id.sticker1);
+        Glide.with(this).asGif().load(R.raw.img_sticker1).into(sticker1);
+
+
+        img_guide.setVisibility(VISIBLE);
+        img_guide_text.setVisibility(VISIBLE);
 
         btn_record.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -551,39 +563,39 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     }
 
     public void showLeftBar(){
-        bar_left.setVisibility(View.VISIBLE);
-        btn_text.setVisibility(View.VISIBLE);
-        btn_enm.setVisibility(View.VISIBLE);
-        btn_music.setVisibility(View.VISIBLE);
-        btn_voice.setVisibility(View.VISIBLE);
-        btn_picture.setVisibility(View.VISIBLE);
+        bar_left.setVisibility(VISIBLE);
+        btn_text.setVisibility(VISIBLE);
+        btn_enm.setVisibility(VISIBLE);
+        btn_music.setVisibility(VISIBLE);
+        btn_voice.setVisibility(VISIBLE);
+        btn_picture.setVisibility(VISIBLE);
     }
 
 
     public void hideLeftBar(){
-        bar_left.setVisibility(View.GONE);
-        btn_text.setVisibility(View.GONE);
-        btn_enm.setVisibility(View.GONE);
-        btn_music.setVisibility(View.GONE);
-        btn_voice.setVisibility(View.GONE);
-        btn_picture.setVisibility(View.GONE);
-        img_guide.setVisibility(View.GONE);
-        img_guide_text.setVisibility(View.GONE);
+        bar_left.setVisibility(GONE);
+        btn_text.setVisibility(GONE);
+        btn_enm.setVisibility(GONE);
+        btn_music.setVisibility(GONE);
+        btn_voice.setVisibility(GONE);
+        btn_picture.setVisibility(GONE);
+        img_guide.setVisibility(GONE);
+        img_guide_text.setVisibility(GONE);
     }
 
     public void text(View v){
-        if(btn_a.getVisibility() == View.GONE){
-            txt_edit.setVisibility(View.VISIBLE);
-            btn_a.setVisibility(View.VISIBLE);
-            btn_pallete.setVisibility(View.VISIBLE);
+        if(btn_a.getVisibility() == GONE){
+            txt_edit.setVisibility(VISIBLE);
+            btn_a.setVisibility(VISIBLE);
+            btn_pallete.setVisibility(VISIBLE);
         }else{
             if(txt_edit.getText().toString().length()==0){
-                txt_edit.setVisibility(View.GONE);
-                btn_a.setVisibility(View.GONE);
-                btn_pallete.setVisibility(View.GONE);
+                txt_edit.setVisibility(GONE);
+                btn_a.setVisibility(GONE);
+                btn_pallete.setVisibility(GONE);
             }else{
-                btn_a.setVisibility(View.GONE);
-                btn_pallete.setVisibility(View.GONE);
+                btn_a.setVisibility(GONE);
+                btn_pallete.setVisibility(GONE);
             }
 
         }
@@ -591,24 +603,30 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     }
 
     public void enm(View v){
-        if(layout_clip.getVisibility() == View.GONE){
-            layout_clip.setVisibility(View.VISIBLE);
+        if(layout_clip.getVisibility() == GONE){
+            layout_clip.setVisibility(VISIBLE);
         }else{
-            layout_clip.setVisibility(View.GONE);
+            layout_clip.setVisibility(GONE);
         }
     }
 
     public void clip(View v){
         btn_clip.setImageResource(R.mipmap.img_clip_white);
         btn_sticker.setImageResource(R.mipmap.img_sticker_grey);
-        scrollView_clip.setVisibility(View.VISIBLE);
-        scrollView_sticker.setVisibility(View.GONE);
+        scrollView_clip.setVisibility(VISIBLE);
+        scrollView_sticker.setVisibility(GONE);
     }
 
     public void sticker(View v){
         btn_clip.setImageResource(R.mipmap.img_clip_grey);
         btn_sticker.setImageResource(R.mipmap.img_sticker_white);
-        scrollView_clip.setVisibility(View.GONE);
-        scrollView_sticker.setVisibility(View.VISIBLE);
+        scrollView_clip.setVisibility(GONE);
+        scrollView_sticker.setVisibility(VISIBLE);
+    }
+
+    public void duckson(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker1).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
     }
 }

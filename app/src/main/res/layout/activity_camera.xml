@@ -122,10 +122,9 @@
         android:id="@+id/txt_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:background="@null"
         android:ems="10"
         android:hint="입력하세요"
@@ -136,10 +135,9 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/imageView23"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bar_left" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/btn_a"
@@ -197,7 +195,13 @@
                 tools:layout_editor_absoluteX="380dp"
                 tools:layout_editor_absoluteY="143dp">
 
+                <ImageView
+                    android:id="@+id/sticker1"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:onClick="duckson" />
             </RelativeLayout>
+
         </HorizontalScrollView>
 
         <ImageView
@@ -444,5 +448,16 @@
         app:layout_constraintEnd_toEndOf="@+id/img_guide"
         app:layout_constraintStart_toStartOf="@+id/img_guide"
         app:srcCompat="@mipmap/img_camera_guide_text" />
+
+    <ImageView
+        android:id="@+id/img_camera_sticker"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView23"
+        app:srcCompat="@android:color/transparent" />
 
 </android.support.constraint.ConstraintLayout>
