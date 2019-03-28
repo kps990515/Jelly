@@ -113,7 +113,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView16"
-                app:srcCompat="@drawable/circle" />
+                app:srcCompat="@mipmap/img_thumb3" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -131,29 +131,31 @@
                 android:layout_marginEnd="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView5"
-                app:srcCompat="@drawable/circle" />
+                app:srcCompat="@mipmap/img_thumb5" />
 
             <ImageView
                 android:id="@+id/imageView7"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toBottomOf="@+id/imageView4"
-                app:srcCompat="@drawable/background" />
+                app:srcCompat="@mipmap/img_hom2" />
 
             <ImageView
                 android:id="@+id/imageView8"
-                android:layout_width="258dp"
-                android:layout_height="258dp"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView4"
-                app:srcCompat="@drawable/background" />
+                app:srcCompat="@mipmap/img_hom1" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -164,28 +166,30 @@
                 app:layout_constraintEnd_toStartOf="@+id/imageView4"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="@+id/imageView4"
-                app:srcCompat="@drawable/circle" />
+                app:srcCompat="@mipmap/img_thumbnail2" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_mainHorizon"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/colorAccent"
+                android:background="#eb3b3d"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="9dp"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
                 app:layout_constraintTop_toBottomOf="@+id/imageView7"
-                app:srcCompat="@drawable/background" />
+                app:srcCompat="@mipmap/img_hom3" />
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -196,7 +200,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/imageView6"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="@+id/imageView4"
-                app:srcCompat="@drawable/circle" />
+                app:srcCompat="@mipmap/img_thumb4" />
 
             <EditText
                 android:id="@+id/editText2"
@@ -213,13 +217,13 @@
             <ImageView
                 android:id="@+id/imageView12"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/list_mainHorizon"
-                app:srcCompat="@drawable/background" />
+                app:srcCompat="@mipmap/img_ad" />
 
             <ImageView
                 android:id="@+id/imageView15"
@@ -240,6 +244,14 @@
                 app:layout_constraintStart_toStartOf="@+id/editText2"
                 app:layout_constraintTop_toBottomOf="@+id/editText2"
                 app:srcCompat="@mipmap/img_best" />
+
+            <ImageView
+                android:id="@+id/imageView27"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toBottomOf="@+id/imageView12"
+                app:srcCompat="@mipmap/img_ad2" />
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
