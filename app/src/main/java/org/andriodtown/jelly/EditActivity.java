@@ -44,6 +44,7 @@ public class EditActivity extends AppCompatActivity implements TextureView.Surfa
     private ImageView btn_clip;
     private ImageView btn_sticker;
     private ImageView sticker1;
+    private ImageView sticker2;
     private ImageView img_camera_sticker;
 
     private EditText txt_edit;
@@ -80,6 +81,8 @@ public class EditActivity extends AppCompatActivity implements TextureView.Surfa
 
         sticker1 = findViewById(R.id.sticker1);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(sticker1);
+        sticker2 = findViewById(R.id.sticker2);
+        Glide.with(this).asGif().load(R.raw.img_sticker2).into(sticker2);
 
 
         Intent intent = getIntent();
@@ -99,6 +102,7 @@ public class EditActivity extends AppCompatActivity implements TextureView.Surfa
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
+                    mediaPlayer.setLooping(true);
                     mediaPlayer.start();
                 }
             });
