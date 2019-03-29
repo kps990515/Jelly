@@ -101,6 +101,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     private ImageView img_guide;
     private ImageView img_guide_text;
     private ImageView sticker1;
+    private ImageView sticker2;
     private ImageView img_camera_sticker;
     private ImageView img_rec;
 
@@ -207,7 +208,9 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         img_rec = findViewById(R.id.img_rec);
 
         sticker1 = findViewById(R.id.sticker1);
+        sticker2 = findViewById(R.id.sticker2);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(sticker1);
+        Glide.with(this).asGif().load(R.raw.img_sticker2).into(sticker2);
 
 
         img_guide.setVisibility(VISIBLE);
@@ -716,6 +719,11 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     public void duckson(View v){
         img_camera_sticker.setVisibility(VISIBLE);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
+    }
+    public void sregi(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker2).into(img_camera_sticker);
         layout_clip.setVisibility(GONE);
     }
 

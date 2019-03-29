@@ -200,6 +200,17 @@
                     android:layout_width="105dp"
                     android:layout_height="105dp"
                     android:onClick="duckson" />
+
+                <ImageView
+                    android:id="@+id/sticker2"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/sticker1"
+                    android:onClick="sregi"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/transparent" />
             </RelativeLayout>
 
         </HorizontalScrollView>
@@ -455,6 +466,7 @@
         android:layout_height="200dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView23"

@@ -1,6 +1,7 @@
 package org.andriodtown.jelly;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -49,6 +50,8 @@ public class EditActivity extends AppCompatActivity implements TextureView.Surfa
 
     private String videoFileName;
 
+    private AssetFileDescriptor descriptor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +81,14 @@ public class EditActivity extends AppCompatActivity implements TextureView.Surfa
         sticker1 = findViewById(R.id.sticker1);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(sticker1);
 
+
         Intent intent = getIntent();
         videoFileName = intent.getExtras().getString("path");
 
         textureView.setSurfaceTextureListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         Surface surface = new Surface(surfaceTexture);
@@ -191,6 +196,11 @@ public class EditActivity extends AppCompatActivity implements TextureView.Surfa
     public void duckson(View v){
         img_camera_sticker.setVisibility(VISIBLE);
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
+    }
+    public void sregi(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker2).into(img_camera_sticker);
         layout_clip.setVisibility(GONE);
     }
 }
