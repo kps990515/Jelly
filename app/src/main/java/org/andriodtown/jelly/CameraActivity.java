@@ -2,7 +2,6 @@ package org.andriodtown.jelly;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
@@ -32,10 +31,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -102,6 +101,12 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     private ImageView img_guide_text;
     private ImageView sticker1;
     private ImageView sticker2;
+    private ImageView sticker3;
+    private ImageView sticker4;
+    private ImageView sticker5;
+    private ImageView sticker6;
+    private ImageView sticker7;
+    private ImageView clip1;
     private ImageView img_camera_sticker;
     private ImageView img_rec;
 
@@ -209,9 +214,33 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
 
         sticker1 = findViewById(R.id.sticker1);
         sticker2 = findViewById(R.id.sticker2);
+        sticker3 = findViewById(R.id.sticker3);
+        sticker4 = findViewById(R.id.sticker4);
+        sticker5 = findViewById(R.id.sticker5);
+        sticker6 = findViewById(R.id.sticker6);
+        sticker7 = findViewById(R.id.sticker7);
+        clip1=findViewById(R.id.clip1);
+        clip1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_DOWN :
+                        Glide.with(getApplicationContext()).asGif().load(R.raw.img_clip1).into(clip1);
+                        return true;
+                    case MotionEvent.ACTION_UP :
+                        clip1.setImageResource(R.mipmap.img_clip1);
+                        return false;
+                }
+                return false;
+            }
+        });
         Glide.with(this).asGif().load(R.raw.img_sticker1).into(sticker1);
         Glide.with(this).asGif().load(R.raw.img_sticker2).into(sticker2);
-
+        Glide.with(this).asGif().load(R.raw.img_sticker3).into(sticker3);
+        Glide.with(this).asGif().load(R.raw.img_sticker4).into(sticker4);
+        Glide.with(this).asGif().load(R.raw.img_sticker5).into(sticker5);
+        Glide.with(this).asGif().load(R.raw.img_sticker6).into(sticker6);
+        Glide.with(this).asGif().load(R.raw.img_sticker7).into(sticker7);
 
         img_guide.setVisibility(VISIBLE);
         img_guide_text.setVisibility(VISIBLE);
@@ -727,31 +756,33 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         layout_clip.setVisibility(GONE);
     }
 
-    public void dialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("알림");
-        builder.setMessage("녹화영상을 편집하시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    mediaRecorder.stop();
-                    mediaRecorder.release();
-                    mediaPlayer.setDataSource(videoFileName);
-                    mediaPlayer.prepareAsync();
-                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mediaPlayer.start();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        builder.setNegativeButton("아니오", null);
-        builder.setNeutralButton("취소", null);
-        builder.create().show();
+    public void swings(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker3).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
+    }
+
+    public void yeongja(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker4).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
+    }
+
+    public void sinmyo(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker5).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
+    }
+
+    public void heart(View v){
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker6).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
+    }
+
+    public void banana(View v) {
+        img_camera_sticker.setVisibility(VISIBLE);
+        Glide.with(this).asGif().load(R.raw.img_sticker7).into(img_camera_sticker);
+        layout_clip.setVisibility(GONE);
     }
 }

@@ -120,19 +120,21 @@
 
     <EditText
         android:id="@+id/txt_edit"
-        android:layout_width="wrap_content"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="80dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@null"
+        android:background="@android:color/background_light"
         android:ems="10"
-        android:hint="입력하세요"
         android:imeOptions="flagNoExtractUi"
         android:inputType="textPersonName"
+        android:text="신개념 V-리뷰 플랫폼 젤리~"
         android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:textSize="36sp"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +201,8 @@
                     android:id="@+id/sticker1"
                     android:layout_width="105dp"
                     android:layout_height="105dp"
-                    android:onClick="duckson" />
+                    android:onClick="duckson"
+                    android:scaleType="fitXY" />
 
                 <ImageView
                     android:id="@+id/sticker2"
@@ -210,6 +213,68 @@
                     android:layout_below="@+id/sticker1"
                     android:onClick="sregi"
                     app:srcCompat="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/sticker3"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toEndOf="@+id/sticker1"
+                    android:layout_toRightOf="@+id/sticker1"
+                    android:onClick="swings"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/sticker4"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_below="@+id/sticker3"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toEndOf="@+id/sticker2"
+                    android:layout_toRightOf="@+id/sticker2"
+                    android:onClick="yeongja"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/sticker5"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toEndOf="@+id/sticker3"
+                    android:layout_toRightOf="@+id/sticker3"
+                    android:onClick="sinmyo"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/sticker6"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_below="@+id/sticker5"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toEndOf="@+id/sticker4"
+                    android:layout_toRightOf="@+id/sticker4"
+                    android:onClick="heart"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/sticker7"
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toEndOf="@+id/sticker5"
+                    android:layout_toRightOf="@+id/sticker5"
+                    android:onClick="banana"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:color/transparent" />
+
+
             </RelativeLayout>
 
         </HorizontalScrollView>
@@ -294,9 +359,10 @@
                 tools:layout_editor_absoluteY="143dp">
 
                 <ImageView
-                    android:id="@+id/imageView40"
+                    android:id="@+id/clip1"
                     android:layout_width="210dp"
                     android:layout_height="230dp"
+                    android:scaleType="fitXY"
                     app:srcCompat="@mipmap/img_clip1" />
 
                 <ImageView
@@ -306,8 +372,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@+id/imageView40"
-                    android:layout_toRightOf="@+id/imageView40"
+                    android:layout_toEndOf="@+id/clip1"
+                    android:layout_toRightOf="@+id/clip1"
                     app:srcCompat="@mipmap/img_clip2" />
 
                 <ImageView
@@ -465,6 +531,7 @@
         android:layout_height="200dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView23"
